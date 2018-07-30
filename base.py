@@ -28,18 +28,18 @@ except UnknownTopicOrPartition:
     print "Please enter a valid topic"
     raise SystemExit
 
+def produceJSON(Dict):
+    js = json.dumps(Dict)
+    producer.produce(js)
+
 try:
     for message in consumer:
         try:
             nDict = json.loads(message.value) #loads current json to dict
-            key = nDict.keys() #should put every key from that json into an array
-            value = nDict.values()
-            ipDict = nDict["ipv4"] #Loads the keys inside ipv4 into a new dict
 #
 #    Magic goes here
 #
-            js = json.dumps(nDict)
-            producer.produce(js)
+            produceJSON(nDict)
         except ValueError:
             pass
 except KeyboardInterrupt:
